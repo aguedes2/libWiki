@@ -39,10 +39,6 @@
       <section class="searchResults"></section>
     </main>
     <script>
-      const $search_form = document.querySelector('.searchForm');
-
-      $search_form.addEventListener('submit', handleSubmit);
-
       function handleSubmit(event) {
         //evitar o evento padrão do formulário de carregar a página ao evento submit
         event.preventDefault();
@@ -60,8 +56,23 @@
         }
         $input = '';
         //print `searchQuery` no console
-        console.log('Query de busca: ', $searchQuery);
+        fetchResults($searchQuery);
       }
+
+      //função para obter resultados por meio do CORS - Cross-Origin Resource Sharing
+      function fetchResults(searchQuery) {
+        const endpoint = `https://en.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=50&srsearch=${searchQuery}`;
+
+        fetch(endpoint)
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+          })
+          .catch(() => console.log('Um erro ocorreu'));
+      }
+
+      const $search_form = document.querySelector('.searchForm');
+      $search_form.addEventListener('submit', handleSubmit);
     </script>
   </body>
 </html>
