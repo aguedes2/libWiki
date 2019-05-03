@@ -16,7 +16,7 @@
         />
 
         <form class="searchForm">
-          <input type="search" class="searchForm-input" />
+          <input type="search" class="searchForm-input" id="searchForm-input" />
           <button type="submit" class="icon searchIcon">
             <img
               src="https://image.ibb.co/cpG8zk/search.png"
@@ -39,18 +39,29 @@
       <section class="searchResults"></section>
     </main>
     <script>
-      (function() {
-        var $a_shufle = document.getElementById('iconShufle');
-        var $search_term = document.getElementById('iptSearch');
-        var $lang = document.getElementById('select');
-        var $btn_search = document.getElementById('btnSearch');
-        var $article = document.getElementById('article-content');
+      const $search_form = document.querySelector('.searchForm');
 
-        $btn_search.addEventListener('click', () => {
-          $article.textContent =
-            'Buscar: ' + $search_term.value + ', no idioma: ' + $lang.value;
-        });
-      })();
+      $search_form.addEventListener('submit', handleSubmit);
+
+      function handleSubmit(event) {
+        //evitar o evento padrão do formulário de carregar a página ao evento submit
+        event.preventDefault();
+
+        //pegar o valor digitado pelo usuário
+        var $input = document.getElementById('searchForm-input').value;
+
+        //remover os espaços em branco
+        var text = $input.trim();
+        var $searchQuery = '';
+        for (const key in text) {
+          $input[key] === ' '
+            ? ($searchQuery += '%20')
+            : ($searchQuery += $input[key]);
+        }
+        $input = '';
+        //print `searchQuery` no console
+        console.log('Query de busca: ', $searchQuery);
+      }
     </script>
   </body>
 </html>
