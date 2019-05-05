@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="pt" xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="pt">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -57,18 +57,18 @@
 
         //print `searchQuery` no console
         fetchResults($searchQuery);
+        apresentarTexto($searchQuery);
       }
 
-      //função para obter resultados por meio do CORS - Cross-Origin Resource Sharing
+      //função para obter resultados considerando o CORS - Cross-Origin Resource Sharing
       function fetchResults(searchQuery) {
-        const endpoint = `https://en.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=50&srsearch=${searchQuery}`;
+        const endpoint = `https://en.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&rvprop=content&utf8=&format=json&origin=*&srlimit=2&srsearch=${searchQuery}`;
 
         fetch(endpoint)
           .then(response => response.json())
           .then(data => {
-            const results = data.query.search;
-            displayResults(results);
-            apresentarTexto(results[0]);
+            const result = data.query.search;
+            displayResults(result);
           })
           .catch(() => console.log('Um erro ocorreu'));
       }
@@ -103,24 +103,22 @@
       }
 
       //Fazer função para pegar o texto na página encontrada em cada restultado
-      function apresentarTexto(result) {
-        //const site = encodeURI(`https://en.wikipedia.org/wiki/${result.title}`);
-        const site = encodeURI(`https://en.wikipedia.org/wiki/${result.title}`);
+      function apresentarTexto(searchQuery) {
+        let input = '';
+        for (let i = 0; i < searchQuery.length; i++) {
+          searchQuery[i] === ' ' ? (input += '%20') : (input += searchQuery[i]);
+        }
+        console.log('Input: ', input);
+
+        const query = `https://en.wikipedia.org/w/api.php?action=opensearch&format=json&origin=*&namespace=*&limit=50&search=${input}`;
 
         debugger;
-        try {
-          fetch(site)
-            .then(
-                if(window.XMLHttpRequest){
-                    xmlhttp = new XMLHttpRequest();
-                }else{
-                    xmlhttp = new ActiveXObject();
-                }
-            )
-            .catch();
-        } catch (e) {
-          console.log(e);
-        }
+        fetch(query)
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+          })
+          .catch(() => console.log('Não foi possível acessar a API'));
       }
 
       const $search_form = document.querySelector('.searchForm');
