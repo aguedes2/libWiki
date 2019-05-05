@@ -1,0 +1,33 @@
+`https://en.wikipedia.org/w/api.php?action=query&
+list=search&
+prop=info&
+inprop=url&
+rvprop=content&
+utf8=1&
+format=json&
+origin=*&
+srlimit=20&
+srsearch=${searchQuery}`;
+
+
+`https://en.wikipedia.org/w/api.php?
+action=query&
+prop=revisions|info&
+inprop=url&
+rvprop=content&
+utf=1&
+format=jsonfm&
+origin=*&
+formatversion=2&
+srlimit=20&
+titles=${input}`;
+
+API OPEN SEARCH
+https://en.wikipedia.org/w/api.php?action=opensearch&format=json&origin=*&search=Michael%20Jackson&namespace=*&limit=500&profile=normal&redirects=resolve&utf8=1&formatversion=2
+
+`https://en.wikipedia.org/w/api.php?action=opensearch&format=json&origin=*&namespace=*&limit=50&search=${input}`
+
+
+[2][1]
+API VISUAL EDITOR
+`https://en.wikipedia.org/w/api.php?action=visualeditor&format=jsonfm&origin=*&paction=wikitext&utf8=1&formatversion=2&page=${input}`
